@@ -1,34 +1,58 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import contactsJSON from './contacts.json'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+function App({
+  pictureUrl,
+  name,
+  popularity,
+}
+) {
+  const [contacts, setContacts] = useState(contactsJSON.slice(0 ,6));
+
+  const [remaining, setRemaining] = useState(contactsJSON.slice(6));
+
+
+
+  const addRandomContact = () => {
+  const random = Math.floor(Math.floor(Math.random() * remaining.length));
+  const newContact = remaining.splice(random, 1)[0]
+
+  setContacts([...contacts, newContact]);
+}
 
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1> IronContacts </h1>
+      <button onClick={addRandomContact}>Add a random contact</button>
+      <table id='talbe '>
+        <thead>
+        <tr>
+          <th>Picture</th>
+          <th>Name</th>
+          <th>Popularity</th>
+          <th>Won Oscar</th>
+          <th>Won Emmy</th>
+        </tr>
+        </thead>
+      <tbody>
+        {contacts.map((celebrity) => {
+            return (
+              <tr key={celebrity.id} className="table">
+                <td>
+                  <img src={celebrity.pictureUrl} alt="" />
+                </td>
+                <td>{celebrity.name}</td>
+                <td>{celebrity.popularity}</td>
+                <td>{celebrity.wonOscar ? '🏆' : ''}</td>
+                <td>{celebrity.wonEmmy ? '🏆' : ''}</td>
+              </tr>
+            )
+          })}
+        </tbody> 
+    </table>
     </div>
-  )
-}
+  );
+};
 
 export default App
