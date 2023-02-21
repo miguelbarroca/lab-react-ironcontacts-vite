@@ -2,30 +2,34 @@ import { useState } from 'react'
 import contactsJSON from './contacts.json'
 import './App.css'
 
-function App({
-  pictureUrl,
-  name,
-  popularity,
-}
-) {
+function App() {
+  //FIXME: USE STATE 
   const [contacts, setContacts] = useState(contactsJSON.slice(0 ,6));
-
   const [remaining, setRemaining] = useState(contactsJSON.slice(6));
+  const [count, setCount] = useState(0)
 
 
 
   const addRandomContact = () => {
-  const random = Math.floor(Math.floor(Math.random() * remaining.length));
-  const newContact = remaining.splice(random, 1)[0]
+    const random = Math.floor(Math.floor(Math.random() * remaining.length));
+    const newContact = remaining.splice(random, 1)[0]
 
   setContacts([...contacts, newContact]);
-}
+  }
+
+  function sortByName() {
+    contacts.sort((a,b) => a.name.localeCompare(b.name))
+    setCount(count + 1)
+  }
+
 
   return (
     <div className="App">
       <h1> IronContacts </h1>
       <button onClick={addRandomContact}>Add a random contact</button>
-      <table id='talbe '>
+      <button onClick={sortByName}>Sort by name</button>
+      <button onClick={sortByPopularity}>Sort by popularity</button>
+      <table id='talbe'>
         <thead>
         <tr>
           <th>Picture</th>
